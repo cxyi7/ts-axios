@@ -51,8 +51,6 @@ export default function xhr(config: AxiosRequestConfig): AxiosPromise {
         request.setRequestHeader(name, headers[name])
       }
     })
-
-    console.log(data, 'data=========');
     
     request.send(data)
 
