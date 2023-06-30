@@ -125,6 +125,14 @@
     "tslint-loader": "^3.5.4",
     "express": "^4.16.4",
     "body-parser": "^1.18.3",
-    "qs": "^6.7.0"
+    "qs": "^6.7.0",
+    "style-loader": "^0.23.1",
+    "css-loader": "^2.1.1",
+    "@types/nprogress": "0.0.29",
+    "nprogress": "^0.2.0"
+  },
+  "dependencies": {
+    "connect-multiparty": "^2.2.0",
+    "cookie-parser": "^1.4.6"
   }
 }

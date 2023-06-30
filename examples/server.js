@@ -1,9 +1,14 @@
 const express = require('express')
 const bodyParser = require('body-parser')
 const webpack = require('webpack')
+const cookieParser = require('cookie-parser')
 const webpackDevMiddleware = require('webpack-dev-middleware')
 const webpackHotMiddleware = require('webpack-hot-middleware')
 const WebpackConfig = require('./webpack.config')
+const multipart = require('connect-multiparty')
+const path = require('path')
+
+require('./servers2')
 
 const app = express()
 const compiler = webpack(WebpackConfig)
@@ -18,10 +23,20 @@ app.use(webpackDevMiddleware(compiler,{
 
 app.use(webpackHotMiddleware(compiler))
 
-app.use(express.static(__dirname))
+// app.use(express.static(__dirname))
+app.use(express.static(__dirname,{
+    setHeaders(res) {
+        res.cookie('XSRF-TOKEN-D','1234abc')
+    }
+}))
 
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
+app.use(cookieParser())
+
+app.use(multipart({
+    uploadDir: path.resolve(__dirname, 'upload-file')
+}))
 
 
 const router = express.Router()
@@ -146,6 +161,15 @@ router.post('/cancel/post', function (req, res) {
     setTimeout(() => {
         res.json(req.body)
     }, 1000);
+})
+
+// more
+router.get('/more/get', function(req, res) {
+    res.json(req.cookies)
+})
+
+router.post('/more/upload', function (req, res) {
+    res.end('upload success!!')
 })
 app.use(router)
 

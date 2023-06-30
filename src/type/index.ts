@@ -1,4 +1,18 @@
-export type Method = 'get' | 'GET' | 'delete' | 'DELETE' | 'HEAD' | 'head' | 'options' | 'OPTIONS' | 'post' | 'POST' | 'put' | 'PUT' | 'PATCH' | 'patch'
+export type Method =
+  | 'get'
+  | 'GET'
+  | 'delete'
+  | 'DELETE'
+  | 'HEAD'
+  | 'head'
+  | 'options'
+  | 'OPTIONS'
+  | 'post'
+  | 'POST'
+  | 'put'
+  | 'PUT'
+  | 'PATCH'
+  | 'patch'
 
 export interface AxiosRequestConfig {
   url?: string
@@ -11,29 +25,32 @@ export interface AxiosRequestConfig {
   transformRequest?: AxiosTransformer | AxiosTransformer[]
   transformResponse?: AxiosTransformer | AxiosTransformer[]
   cancelToken?: CancelToken
+  withCredentials?: boolean
+  xsrfCookieName?: string
+  xsrfHeaderName?: string
+  onDownloadProgress?: (e: ProgressEvent) => void
+  onUploadProgress?: (e: ProgressEvent) => void
 
   [propName: string]: any
 }
 
-export interface AxiosResponse<T = any>{
-    data: T
-    status: number
-    statusText: string
-    headers: any
-    config: AxiosRequestConfig
-    request: any
+export interface AxiosResponse<T = any> {
+  data: T
+  status: number
+  statusText: string
+  headers: any
+  config: AxiosRequestConfig
+  request: any
 }
 
-export interface AxiosPromise<T = any> extends Promise<AxiosResponse<T>> {
-
-}
+export interface AxiosPromise<T = any> extends Promise<AxiosResponse<T>> {}
 
 export interface AxiosError extends Error {
-    isAxiosError: boolean
-    config: AxiosRequestConfig
-    code?: string | null
-    request?: any
-    response?: AxiosResponse
+  isAxiosError: boolean
+  config: AxiosRequestConfig
+  code?: string | null
+  request?: any
+  response?: AxiosResponse
 }
 
 export interface Axios {
@@ -79,7 +96,7 @@ export interface AxiosInterceptorManager<T> {
 export interface ResolvedFn<T> {
   (val: T): T | Promise<T>
 }
-export interface RejectedFn{
+export interface RejectedFn {
   (error: any): any
 }
 
@@ -108,7 +125,7 @@ export interface CancelTokenSource {
 }
 
 export interface CancelTokenStatic {
-  new(executor: CancelExecutor): CancelToken
+  new (executor: CancelExecutor): CancelToken
 
   source(): CancelTokenSource
 }
@@ -118,5 +135,5 @@ export interface Cancel {
 }
 
 export interface CancelStatic {
-  new(message?: string): Cancel
+  new (message?: string): Cancel
 }

@@ -1,14 +1,19 @@
-import { isDate, isPlainObject } from "./util";
+import { isDate, isPlainObject } from './util'
+
+interface URLOrigin {
+  protocol: string
+  host: string
+}
 
 function encode(val: string): string {
-    return encodeURIComponent(val)
-        .replace(/%40/g, '@')
-        .replace(/%3A/ig, ':')
-        .replace(/%24/g, '$')
-        .replace(/%2C/ig, ',')
-        .replace(/%20/g, '+')
-        .replace(/%5B/ig, '[')
-        .replace(/%5D/ig, ']')
+  return encodeURIComponent(val)
+    .replace(/%40/g, '@')
+    .replace(/%3A/gi, ':')
+    .replace(/%24/g, '$')
+    .replace(/%2C/gi, ',')
+    .replace(/%20/g, '+')
+    .replace(/%5B/gi, '[')
+    .replace(/%5D/gi, ']')
 }
 
 export function bulidURL(url: string, params?: any) {
@@ -52,4 +57,24 @@ export function bulidURL(url: string, params?: any) {
   }
 
   return url
+}
+
+// 对比url判断是否跨域
+export function isURLSameOrigin(requestURL: string): boolean {
+  const parsedOirgin = resolveURL(requestURL)
+  return (
+    parsedOirgin.host === currentOrigin.host && parsedOirgin.protocol === currentOrigin.protocol
+  )
+}
+
+const urlParsingNode = document.createElement('a')
+const currentOrigin = resolveURL(window.location.href)
+
+function resolveURL(url: string): URLOrigin {
+  urlParsingNode.setAttribute('href', url)
+  const { protocol, host } = urlParsingNode
+  return {
+    protocol,
+    host
+  }
 }
