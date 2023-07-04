@@ -1,13 +1,7 @@
-import { Method } from '../type'
-
 const toString = Object.prototype.toString
 
 export function isDate(val: any): val is Date {
   return toString.call(val) === '[object Date]'
-}
-
-export function isObject(val: any): val is Object {
-  return val !== null && typeof val === 'object'
 }
 
 export function isFormData(val: any): val is FormData {
@@ -51,20 +45,4 @@ export function deepMerge(...objs: any[]): any {
   })
 
   return result
-}
-
-// headers 扁平化
-export function flattenHeaders(headers: any, method: Method): any {
-  if (!headers) {
-    return headers
-  }
-
-  headers = deepMerge(headers.common, headers[method], headers)
-
-  const methodToDelete = ['delete', 'get', 'head', 'options', 'post', 'put', 'patch', 'common']
-  methodToDelete.forEach(method => {
-    delete headers[method]
-  })
-
-  return headers
 }

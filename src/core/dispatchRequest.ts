@@ -1,8 +1,8 @@
 import { AxiosRequestConfig, AxiosPromise, AxiosResponse } from '../type'
 import xhr from './xhr'
 import { bulidURL, combineURL, isAbsoluteURL } from '../helpers/url'
-import { flattenHeaders } from '../helpers/util'
 import transform from './transform'
+import { flattenHeaders } from '../helpers/headers'
 
 export default function dispatchRequest(config: AxiosRequestConfig): AxiosPromise {
   throwIfCancellationRequested(config)
