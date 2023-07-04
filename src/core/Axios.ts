@@ -1,7 +1,14 @@
-import { AxiosPromise, AxiosRequestConfig, AxiosResponse, Method, RejectedFn, ResolvedFn } from "../type";
-import InterceptorManager from "./InterceptorManager";
-import dispatchRequest from "./dispatchRequest";
-import mergeConfig from "./mergeConfig";
+import {
+  AxiosPromise,
+  AxiosRequestConfig,
+  AxiosResponse,
+  Method,
+  RejectedFn,
+  ResolvedFn
+} from '../type'
+import InterceptorManager from './InterceptorManager'
+import dispatchRequest, { transformURL } from './dispatchRequest'
+import mergeConfig from './mergeConfig'
 
 interface Interceptors {
   request: InterceptorManager<AxiosRequestConfig>
@@ -38,10 +45,12 @@ export default class Axios {
     config = mergeConfig(this.defaults, config)
 
     // 链式
-    const chain: PromiseChain<any>[] = [{
-      resolved: dispatchRequest,
-      rejected: undefined
-    }]
+    const chain: PromiseChain<any>[] = [
+      {
+        resolved: dispatchRequest,
+        rejected: undefined
+      }
+    ]
 
     this.interceptors.request.forEach(interceptor => {
       chain.unshift(interceptor)
@@ -60,51 +69,55 @@ export default class Axios {
     return promise
   }
 
-    get(url: string, config?: AxiosRequestConfig): AxiosPromise {
-        return this._requestMethodWidthoutData('get', url, config)
-    }
+  get(url: string, config?: AxiosRequestConfig): AxiosPromise {
+    return this._requestMethodWidthoutData('get', url, config)
+  }
 
-    delete(url: string, config?: AxiosRequestConfig): AxiosPromise {
-        return this._requestMethodWidthoutData('delete', url, config)
-    }
+  delete(url: string, config?: AxiosRequestConfig): AxiosPromise {
+    return this._requestMethodWidthoutData('delete', url, config)
+  }
 
-    head(url: string, config?: AxiosRequestConfig): AxiosPromise {
-        return this._requestMethodWidthoutData('head', url, config)
-    }
+  head(url: string, config?: AxiosRequestConfig): AxiosPromise {
+    return this._requestMethodWidthoutData('head', url, config)
+  }
 
-    options(url: string, config?: AxiosRequestConfig): AxiosPromise {
-        return this._requestMethodWidthoutData('options', url, config)
-    }
+  options(url: string, config?: AxiosRequestConfig): AxiosPromise {
+    return this._requestMethodWidthoutData('options', url, config)
+  }
 
-    post(url: string, data?: any, config?: AxiosRequestConfig): AxiosPromise {
-        return this._requestMethodWidthData('post', url,data, config)
-    }
+  post(url: string, data?: any, config?: AxiosRequestConfig): AxiosPromise {
+    return this._requestMethodWidthData('post', url, data, config)
+  }
 
-    put(url: string, data?: any, config?: AxiosRequestConfig): AxiosPromise {
-        return this._requestMethodWidthData('put', url, data, config)
-    }
+  put(url: string, data?: any, config?: AxiosRequestConfig): AxiosPromise {
+    return this._requestMethodWidthData('put', url, data, config)
+  }
 
-    patch(url: string, data?: any, config?: AxiosRequestConfig): AxiosPromise {
-        return this._requestMethodWidthData('patch', url, data, config)
-    }
-    
+  patch(url: string, data?: any, config?: AxiosRequestConfig): AxiosPromise {
+    return this._requestMethodWidthData('patch', url, data, config)
+  }
 
-    _requestMethodWidthoutData(method: Method, url: string, config?: AxiosRequestConfig) {
-        return this.request(
-            Object.assign(config || {}, {
-                method,
-                url
-            })
-        )
-    }
+  getUri(config?: AxiosRequestConfig): string {
+    config = mergeConfig(this.defaults, config)
+    return transformURL(config)
+  }
 
-    _requestMethodWidthData(method: Method, url: string, data?: any, config?: AxiosRequestConfig) {
-        return this.request(
-          Object.assign(config || {}, {
-            method,
-            url,
-            data
-          })
-        )
-    }
+  _requestMethodWidthoutData(method: Method, url: string, config?: AxiosRequestConfig) {
+    return this.request(
+      Object.assign(config || {}, {
+        method,
+        url
+      })
+    )
+  }
+
+  _requestMethodWidthData(method: Method, url: string, data?: any, config?: AxiosRequestConfig) {
+    return this.request(
+      Object.assign(config || {}, {
+        method,
+        url,
+        data
+      })
+    )
+  }
 }
