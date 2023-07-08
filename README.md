@@ -30,3 +30,6 @@
 * cookie、data、error、headers模块测试
 # 2023/07/06
 * url模块测试
+# 2023/07/08
+* axios请求模块测试
+* headers模块测试
