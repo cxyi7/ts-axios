@@ -41,3 +41,6 @@
 # 2023/07/13
 * Cancel 类单元测试
 * CancelToken 类单元测试
+# 2023/07/14
+* Cancel 业务逻辑单元测试
+* defaults 模块单元测试
