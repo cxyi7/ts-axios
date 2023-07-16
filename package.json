@@ -1,7 +1,7 @@
 {
   "name": "ts-axios-cxyi7",
   "version": "0.0.0",
-  "description": "",
+  "description": "cxyi7 ts-axios",
   "keywords": [],
   "main": "dist/axios.umd.js",
   "module": "dist/axios.es5.js",
